@@ -1,0 +1,79 @@
+body{
+    background-image:url("../img/calendar/background.png");
+}
+
+div.schedule-header{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgba(20,200,170,1);
+}
+div.schedule-cell{
+    background-color: rgba(0,0,0,0.2);
+    border: 2px solid rgba(255,255,255,1);
+    width: 150px;
+    height: 150px;
+}
+div.flex-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.display-right{
+    position: absolute;
+    left: 1450px;
+}
+
+div.date{
+    align-items: center;
+    justify-content: center;
+}
+
+button.selection{
+    border: none;
+    background-color: rgba(255,255,255,1);
+    color: rgba(20,200,170,1);
+    font-size: 25px;
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+button.selection:hover{
+    background-color: rgba(0,0,0,0.2);
+    color: rgba(255,255,255,1);
+}
+
+button.selection-selected{
+    border: none;
+    font-size: 25px;
+    padding: 10px 15px;
+    background-color: rgba(0,0,0,0.2);
+    color: rgba(255,255,255,1);
+}
+
+button.change-date{
+    border: none;
+    font-size: 40px;
+    width: 60px;
+    background-color: rgba(0,0,0,0);
+    color: rgba(255,255,255,1);
+    transition: 0.3s;
+}
+
+button.change-date:hover{
+    font-size: 60px;
+    text-shadow: 0px 0px 15px rgba(255,255,255,0.8);
+}
+
+p.month{
+    font-size: 40px;
+    color: rgba(255,255,255,1);
+    font-family: "Lucida Console", "Courier New", monospace;
+    text-align: center;
+}
+p.year{
+    font-size: 35px;
+    color: rgba(255,255,255,1);
+    font-family: "Lucida Console", "Courier New", monospace;
+    text-align: center;
+}

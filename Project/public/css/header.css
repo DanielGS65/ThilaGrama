@@ -1,0 +1,36 @@
+/*------DIV------*/
+
+div.background{
+    background-color: rgba(40,40,55);
+    height: 100px;
+}
+
+div.display{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+div.space{
+    width: 40px;
+}
+
+/*------BUTTONS------*/
+
+button.header-tab{
+    background-color: rgba(0,0,0,0);
+    border: none;
+    font-size: 30px;
+    color: rgba(255,255,255,1);
+    font-family: "Copperplate";
+    transition: 0.5s;
+}
+
+button.header-tab:hover{
+    border: none;
+    font-size: 40px;
+    color: rgba(255,255,255,1);
+    text-shadow: 0px 0px 40px rgba(255,255,255,0.8);
+    font-family: "Copperplate";
+}
