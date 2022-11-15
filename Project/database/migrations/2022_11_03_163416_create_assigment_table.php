@@ -18,12 +18,16 @@ class CreateAssigmentTable extends Migration
             $table->unsignedBigInteger('hospital_Id');
             $table->unsignedBigInteger('employee_Id');
             $table->unsignedBigInteger('turn_Id');
+            $table->dateTime('date');
+            $table->integer('turnProgress');
+            $table->String('turnType');
+            $table->integer('stress');
 
             $table->foreign(['hospital_Id','floorNum'])->references(['hospital_Id','floorNum'])->on('floors')->onDelete('cascade');
             $table->foreign('employee_Id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('turn_Id')->references('id')->on('turns')->onDelete('cascade');
 
-            $table->primary(['hospital_Id','floorNum',"employee_Id","turn_Id"]);
+            $table->primary(['hospital_Id','floorNum',"employee_Id","turn_Id","date"]);
         });
     }
 

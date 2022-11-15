@@ -10,7 +10,7 @@ class Assigment extends Model
     use HasFactory;
 
     protected $table = 'assigments';
-    protected $primaryKey = ['hospital_Id','floorNum','turn_Id','employee_Id'];
+    protected $primaryKey = ['hospital_Id','floorNum','turn_Id','employee_Id','date'];
     public $timestamps = false;
     public $incrementing = false;
 
@@ -26,6 +26,6 @@ class Assigment extends Model
         return $this->belongsTo(Employee::class,'employee_Id');
     }
     public function turn(){
-        return $this->belongsTo(Turn::class,'turn_Id','turn_Id');
+        return $this->belongsTo(Turn::class,'turn_Id','id');
     }
 }

@@ -16,3 +16,4 @@ use App\Http\Controllers\fullScheduleController;
 
 Route::get('/', [fullScheduleController::class,'viewFullSchedule'])->name('fSchedule');
 Route::get('/changeMonth', [fullScheduleController::class,'changeMonth'])->name('fChangeMonth');
+Route::post('/', [fullScheduleController::class,'autoassingEmployees'])->name('autoAssign');

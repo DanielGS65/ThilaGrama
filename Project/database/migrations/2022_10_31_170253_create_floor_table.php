@@ -16,6 +16,7 @@ class CreateFloorTable extends Migration
         Schema::create('floors', function (Blueprint $table) {
             $table->integer('floorNum');
             $table->unsignedBigInteger('hospital_Id');
+            $table->string("name");
             $table->foreign('hospital_Id')->references('id')->on('hospitals')->onDelete('cascade');
             $table->primary(['hospital_Id','floorNum']);
         });

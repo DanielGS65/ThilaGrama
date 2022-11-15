@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
 
         $floor = new Floor();
         $floor->floorNum = 1;
+        $floor->name = "Traumatogia";
         $floor->hospital()->associate($hospital);
         $floor->save();
 
@@ -54,6 +55,8 @@ class DatabaseSeeder extends Seeder
             $appointment->floor()->associate($floor);
             $appointment->hospital()->associate($floor);
             $appointment->patient()->associate($patient);
+            $appointment->start_date = \Carbon\Carbon::now();
+            $appointment->end_date = \Carbon\Carbon::now()->addMonth();
             $appointment->save();
         }
 
@@ -93,11 +96,14 @@ class DatabaseSeeder extends Seeder
 
         $employee = Employee::where('auxiliar',0)->first();
 
-        $assigment = new Assigment();
+        /*$assigment = new Assigment();
         $assigment->employee()->associate($employee);
         $assigment->turn()->associate($turn_day);
         $assigment->floor()->associate($floor);
         $assigment->hospital()->associate($floor);
-        $assigment->save();
+        $assigment->date = \Carbon\Carbon::now();
+        $assigment->turnProgress = 1;
+        $assigment->turnType = "d-t-n";
+        $assigment->save();*/
     }
 }

@@ -3,35 +3,96 @@
 
 div.background{
     background-color: rgba(40,40,55);
-    height: 100px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
 }
 
 div.display{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
 }
 
 div.space{
-    width: 40px;
+    width: 3vw;
 }
 
+div.break{
+    flex-basis: 100%;
+    height: 0;
+    object-fit: cover;
+}
+
+div.title{
+    transition: 0.5s;
+}
+
+div.menu{
+    position:relative;
+    z-index:81;
+}
+
+div.close{
+    height: 0px;
+}
 /*------BUTTONS------*/
 
 button.header-tab{
     background-color: rgba(0,0,0,0);
     border: none;
-    font-size: 30px;
+    font-size: 25px;
     color: rgba(255,255,255,1);
     font-family: "Copperplate";
     transition: 0.5s;
 }
 
 button.header-tab:hover{
-    border: none;
-    font-size: 40px;
-    color: rgba(255,255,255,1);
+
+    font-size: 35px;
+
     text-shadow: 0px 0px 40px rgba(255,255,255,0.8);
-    font-family: "Copperplate";
+}
+
+button.title:hover{
+    font-size: 45px;
+    text-shadow: 0px 0px 40px rgba(255,255,255,0.8);
+}
+
+button.button-collapse{
+    position:relative;
+    top:8px;
+    z-index: 95;
+    background-color: rgba(40,40,55);
+    color:rgba(255,255,255,1);
+    border:none;
+    font-size: 20px;
+    border-radius: 10px;
+    width:30px;
+}
+
+button.collapse-open{
+    top:10px;
+}
+button.collapse-open:hover{
+    text-shadow: 0px 0px 10px rgba(255,255,255,1);
+}
+button.collapse-close{
+    top:0px;
+    transition: 0.3s;
+}
+button.collapse-close:hover{
+    text-shadow: 0px 0px 10px rgba(255,255,255,1);
+    top:10px;
+}
+
+button.hidden{
+    top: -20px;
+}
+
+
+video.logo{
+    width: 30vw;
+    position: relative;
+    z-index: 80;
 }
