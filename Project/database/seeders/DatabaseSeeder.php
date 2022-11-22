@@ -55,8 +55,8 @@ class DatabaseSeeder extends Seeder
             $appointment->floor()->associate($floor);
             $appointment->hospital()->associate($floor);
             $appointment->patient()->associate($patient);
-            $appointment->start_date = \Carbon\Carbon::now();
-            $appointment->end_date = \Carbon\Carbon::now()->addMonth();
+            $appointment->start_date = \Carbon\Carbon::parse("2022-11-1");
+            $appointment->end_date = \Carbon\Carbon::parse("2022-11-31");
             $appointment->save();
         }
 
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
         $turn_aft->save();
         $turn_night->save();
 
-        for($i=0; $i<10; $i++){
+        for($i=0; $i<30; $i++){
             $employee = new Employee();
             if($i%2 == 0){
                 $employee->name = ("Enfermera".(string)$i);
@@ -95,15 +95,5 @@ class DatabaseSeeder extends Seeder
         }
 
         $employee = Employee::where('auxiliar',0)->first();
-
-        /*$assigment = new Assigment();
-        $assigment->employee()->associate($employee);
-        $assigment->turn()->associate($turn_day);
-        $assigment->floor()->associate($floor);
-        $assigment->hospital()->associate($floor);
-        $assigment->date = \Carbon\Carbon::now();
-        $assigment->turnProgress = 1;
-        $assigment->turnType = "d-t-n";
-        $assigment->save();*/
     }
 }

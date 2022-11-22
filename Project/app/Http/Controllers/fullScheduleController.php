@@ -34,7 +34,13 @@ class fullScheduleController extends Controller{
         $query = $query->orderBy('assigments.date', 'desc');
         $asigments = $query->get();
 
-        return view('fullSchedule',['date' => $date,'asigments' => $asigments]);
+        $query = Appointment::query();
+        $query = $query->join('patients','appointments.patient_Id','=','patients.id');
+        $query = $query->whereDate('appointments.end_date','>=',$startDate);
+        $query = $query->orderBy('appointments.start_date', 'desc');
+        $appointments = $query->get();
+
+        return view('fullSchedule',['date' => $date,'asigments' => $asigments,'appointments' => $appointments]);
     }
 
     public function changeMonth(Request $request){
@@ -80,7 +86,7 @@ class fullScheduleController extends Controller{
         $query = $query->where('auxiliar','=',false);
         $employees = $query->get();
 
-        $this->assing($employees,$date_aux,$init_date,$end_date,$enf_morn,$enf_aft,$enf_night);
+        $this->assing($employees,$init_date,$date_aux,$end_date,$enf_morn,$enf_aft,$enf_night);
 
         $init_date = $request->get("init-date");
         $end_date = $request->get("end-date");
@@ -97,19 +103,22 @@ class fullScheduleController extends Controller{
         $query = $query->where('auxiliar','=',true);
         $aux = $query->get();
 
-        $this->assing($aux,$date_aux,$init_date,$end_date,$aux_morn,$aux_aft,$aux_night);
+        $this->assing($aux,$init_date,$date_aux,$end_date,$aux_morn,$aux_aft,$aux_night);
 
         return $this->viewFullSchedule($request);
     }
 
     public function assing($employees, $date,$init_date,$end_date,$morn,$aft,$night){
-        //$i = $date->dayOfWeekIso;
+        $i = $date->dayOfWeekIso;
         $turn_day = Turn::where('id',1)->first();
         $turn_aft = Turn::where('id',2)->first();
         $turn_night = Turn::where('id',3)->first();
         while($date <= $end_date){
 
-            for($i = 1; $i <= 7; $i= $i + 1){
+            for($i; $i <= 7; $i= $i + 1){
+                if($date > $end_date){
+                    break;
+                }
                 $contDay = 0;
                 $contAft = 0;
                 $contNight = 0;
@@ -139,7 +148,7 @@ class fullScheduleController extends Controller{
                                 $stress = $last_assigment->stress;
                             }
 
-                            if($last_assigment->turnProgress == 1 and $stress < 36 and $contAft <= $aft){
+                            if($last_assigment->turnProgress == 1 and $stress < 40 and $contAft <= $aft){
                                 $assigment->employee()->associate($employee);
                                 $assigment->turn()->associate($turn_aft);
                                 $assigment->date = $date;
@@ -149,7 +158,7 @@ class fullScheduleController extends Controller{
                                 $assigment->save();
                                 $contAft = $contAft + 1;
                             }
-                            elseif($last_assigment->turnProgress == 2 and $stress < 36 and $contNight <= $night){
+                            elseif($last_assigment->turnProgress == 2 and $stress < 40 and $contNight <= $night){
                                 $assigment->employee()->associate($employee);
                                 $assigment->turn()->associate($turn_night);
                                 $assigment->date = $date;
@@ -159,7 +168,7 @@ class fullScheduleController extends Controller{
                                 $assigment->save();
                                 $contNight = $contNight + 1;
                             }
-                            elseif($last_assigment->turnProgress == 3 and $stress < 36 and $contDay <= $morn){
+                            elseif($last_assigment->turnProgress == 3 and $stress < 40 and $contDay <= $morn){
                                 $last_date = \Carbon\Carbon::parse($last_assigment->date);
                                 $last_date = $last_date->addDays(2);
                                 if($date > $last_date){
@@ -216,7 +225,8 @@ class fullScheduleController extends Controller{
                     }
                 }
                 $date->addDays(1);
-            }           
+            } 
+            $i=1;          
         }
     }
 }

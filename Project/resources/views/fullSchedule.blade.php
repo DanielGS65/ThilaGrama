@@ -22,7 +22,6 @@
                 <p class="year">{{$date->format('Y')}}</p>
             </div>
             <button id="next" value="{{$date}}" class="change-date" onclick="changeMonth(this)">></button>
-            <div class="options-space"></div>
             <div class="flex-container display-right">
                 <button class="selection">Dia</button>
                 <button class="selection">Semana</button>
@@ -87,11 +86,11 @@
                     @else
                         <p class="day" style="color: rgba(0,100,180,0.6)">{{$i}}</p>
                     @endif
-                    <button class="patient-info">
+                    <button id="{{$i}}" value="open" onclick="patientPopUp(this)" class="patient-info">
                         <p style="position:relative; top:0.4vw">Pacientes</p>
                         <img class="image" src="{{ asset('img/calendar/patient.png')}}"></img>
                     </button>  
-                    <button class="status-info">
+                    <button id="infoButton{{$i}}" name="{{$i}}" value="open" onclick="infoPopUp(this)" class="status-info">
                         <p style="position:relative; bottom:0.1vw">i</p>
                     </button>     
                 </div>
@@ -103,12 +102,22 @@
                         </div>
                         <div class="popUp-Content">
                             <div>
+                                <?php
+                                $contEnfDay = 0;
+                                $contEnfAft = 0;
+                                $contEnfNight = 0;
+
+                                $contAuxDay = 0;
+                                $contAuxAft = 0;
+                                $contAuxNight = 0;
+                                ?>
                                 <div class="turno turno-dia">Turno de Dia</div>
                                 <div class="break"></div>
                                 <div class="rango">Enfermeros</div>
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'd' and $asigment->auxiliar == 0)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contEnfDay = $contEnfDay + 1 ?>
                                     @endif
                                 @endforeach 
                                 <div class="break"></div>
@@ -116,6 +125,7 @@
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'd' and $asigment->auxiliar == 1)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contAuxDay = $contAuxDay + 1 ?>
                                     @endif
                                 @endforeach
                             </div>
@@ -126,6 +136,7 @@
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'a' and $asigment->auxiliar == 0)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contEnfAft = $contEnfAft + 1 ?>
                                     @endif
                                 @endforeach 
                                 <div class="break"></div>
@@ -133,6 +144,7 @@
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'a' and $asigment->auxiliar == 1)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contAuxAft = $contAuxAft + 1 ?>
                                     @endif
                                 @endforeach
                             </div>
@@ -143,6 +155,7 @@
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'n' and $asigment->auxiliar == 0)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contEnfNight = $contEnfNight + 1 ?>
                                     @endif
                                 @endforeach 
                                 <div class="break"></div>
@@ -150,32 +163,122 @@
                                 @foreach($asigments as $asigment)
                                     @if(\Carbon\Carbon::parse($asigment->date)->day == $i and $asigment->turn == 'n' and $asigment->auxiliar == 1)
                                         <p class="nombre">{{$asigment->name}}</p>
+                                        <?php $contAuxNight = $contAuxNight + 1 ?>
                                     @endif
                                 @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--<div id="personal{{$i}}" class="popUp-shade hidden shade-hidden">
-                    <div id="personal-popUp{{$i}}" class="popUp hidden">
+                <div id="patient{{$i}}" class="popUp-shade hidden shade-hidden">
+                    <div id="patient-popUp{{$i}}" class="popUp hidden">
                         <div style="float: right">
-                            <button id="{{$i}}" value="close" class="close" onclick="personalPopUp(this)">x</button>
+                            <button id="{{$i}}" name="close{{$i}}" value="close" class="close" onclick="patientPopUp(this)">x</button>
                         </div>
-                        <div style="padding-top: 45px">
-                        
+                        <div class="popUp-Content">
+                            <div>
+                                <div class="patients-header">Pacientes</div>
+                                <div style="height: 20px"></div>
+                                <?php $contPatients = 0; ?>
+                                @foreach($appointments as $appointment)
+                                    <?php 
+                                        $appointment_start_date = \Carbon\Carbon::parse($appointment->start_date); 
+                                        $appointment_end_date = \Carbon\Carbon::parse($appointment->end_date);
+                                    ?>
+                                    @if((($appointment_start_date->day <= $i and $appointment_start_date->month == $date->month) or $appointment_start_date->month < $date->month) and (($appointment_end_date->day >= $i and $appointment_end_date->month == $date->month) or $appointment_end_date->month > $date->month))
+                                        <p class="nombre">{{$appointment->name}}</p>
+                                        <?php $contPatients = $contPatients + 1; ?>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="personal{{$i}}" class="popUp-shade hidden shade-hidden">
-                    <div id="personal-popUp{{$i}}" class="popUp hidden">
+                <?php 
+                    $empty = false;
+                    $critical = false;
+                    $warning = false;
+                    $good = false;
+
+                    $enf_morn = 0;
+                    $enf_aft = 0;
+                    $enf_night = 0;
+                    $aux_morn = 0;
+                    $aux_aft = 0;
+                    $aux_night = 0;
+
+                    if($contPatients > 0){
+                        $enf_morn = ($contPatients * 2.50 * 0.6 * 0.5)/7;
+                        $enf_aft = ($contPatients * 2.50 * 0.6 * 0.3)/7;
+                        $enf_night = ($contPatients * 2.50 * 0.6 * 0.2)/7;
+
+                        $aux_morn = ($contPatients * 2.50 * 0.4 * 0.5)/7;
+                        $aux_aft = ($contPatients * 2.50 * 0.4 * 0.3)/7;
+                        $aux_night = ($contPatients * 2.50 * 0.4 * 0.2)/7;
+
+                        if($contEnfDay == 0 or $contEnfAft == 0 or $contEnfNight == 0 or $contAuxDay == 0 or $contAuxAft == 0 or $contAuxNight == 0){
+                            $critical = true;
+                        }
+                        elseif($contEnfDay < $enf_morn or $contEnfAft < $enf_aft or $contEnfNight < $enf_night or $contAuxDay < $aux_morn or $contAuxAft < $aux_aft or $contAuxNight < $aux_night){
+                            $warning = true;
+                        }
+                        else{
+                            $good = true;
+                        }
+                    }
+                    else{
+                        $empty = true;
+                    }
+                ?>
+                @if($warning)
+                <script i="{{$i}}">
+                    var i = document.currentScript.getAttribute('i'); 
+                    var btn = document.getElementById("infoButton" + i);
+                    btn.classList.add("warning");
+                </script>
+                @elseif($critical)
+                <script i="{{$i}}">
+                    var i = document.currentScript.getAttribute('i'); 
+                    var btn = document.getElementById("infoButton" + i);
+                    btn.classList.add("critical");
+                </script>
+                @elseif($good)
+                <script i="{{$i}}">
+                    var i = document.currentScript.getAttribute('i'); 
+                    var btn = document.getElementById("infoButton" + i);
+                    btn.classList.add("good");
+                </script>
+                @else
+                <script i="{{$i}}">
+                    var i = document.currentScript.getAttribute('i'); 
+                    var btn = document.getElementById("infoButton" + i);
+                    btn.classList.add("empty");
+                </script>
+                @endif
+                <div id="info{{$i}}" class="popUp-shade hidden shade-hidden">
+                    <div id="info-popUp{{$i}}" class="popUp hidden">
                         <div style="float: right">
-                            <button id="{{$i}}" value="close" class="close" onclick="personalPopUp(this)">x</button>
+                            <button name="{{$i}}" id="close{{$i}}" value="close" class="close" onclick="infoPopUp(this)">x</button>
                         </div>
-                        <div style="padding-top: 45px">
-                        
+                        <div class="popUp-Content">
+                            <div>
+                                <div class="info-header">Estadisticas</div>
+                                <div style="height: 20px"></div>
+                                <p class="rango">Mañana</p>
+                                <p class="nombre">  Enfermeros/as : {{$contEnfDay}}->{{(int)$enf_morn + 1}}</p>
+                                <p class="nombre">  Auxiliares : {{$contAuxDay}}->{{(int)$aux_morn + 1}}</p>
+                                <div style="height: 20px"></div>
+                                <p class="rango">Tarde</p>
+                                <p class="nombre">  Enfermeros/as : {{$contEnfAft}}->{{(int)$enf_aft + 1}}</p>
+                                <p class="nombre">  Auxiliares : {{$contAuxAft}}->{{(int)$aux_aft + 1}}</p>
+                                <div style="height: 20px"></div>
+                                <p class="rango">Noche</p>
+                                <p class="nombre">  Enfermeros/as : {{$contEnfNight}}->{{(int)$enf_night + 1}}</p>
+                                <p class="nombre">  Auxiliares : {{$contAuxNight}}->{{(int)$aux_night + 1}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>-->
+                </div>
             @endfor
             <?php $count = 7-$count; ?>
             @for($i = 1; $i <= $count; $i++)

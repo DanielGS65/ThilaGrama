@@ -18,6 +18,46 @@ function personalPopUp(btn){
     }
 }
 
+function patientPopUp(btn){
+    var shader = document.getElementById("patient" + btn.id);
+    var popUp = document.getElementById("patient-popUp" + btn.id);
+    var close = document.getElementsByName("close" + btn.id);
+    var button = document.getElementById("collapse-button");
+    if(btn.value == "open"){
+        shader.classList.remove('shade-hidden');
+        shader.classList.remove('hidden');
+        popUp.classList.remove('hidden');
+        button.classList.add('hidden');
+    }
+    else{
+        popUp.classList.add('hidden');
+        shader.classList.add('shade-hidden');
+        button.classList.remove('hidden');
+        setTimeout(() =>shader.classList.add('hidden'), 300);
+       
+    }
+}
+
+function infoPopUp(btn){
+    var shader = document.getElementById("info" + btn.name);
+    var popUp = document.getElementById("info-popUp" + btn.name);
+    var close = document.getElementsByName("close" + btn.name);
+    var button = document.getElementById("collapse-button");
+    if(btn.value == "open"){
+        shader.classList.remove('shade-hidden');
+        shader.classList.remove('hidden');
+        popUp.classList.remove('hidden');
+        button.classList.add('hidden');
+    }
+    else{
+        popUp.classList.add('hidden');
+        shader.classList.add('shade-hidden');
+        button.classList.remove('hidden');
+        setTimeout(() =>shader.classList.add('hidden'), 300);
+       
+    }
+}
+
 function optionsColapse(btn){
     var box = document.getElementById("optionBox");
     var button = document.getElementById(btn.id);

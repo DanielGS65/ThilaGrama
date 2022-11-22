@@ -43,7 +43,7 @@ div.flex-container-button{
 
 div.display-right{
     position: absolute;
-    left: 1390px;
+    right: 5.8vw;
 }
 
 div.date{
@@ -120,7 +120,27 @@ div.turno-noche{
     background-image: linear-gradient(to bottom right, rgba(150,0,255), rgba(20,0,200));
 }
 
-div.rango{
+div.patients-header{
+    box-shadow: 0vw 0vw 5vw 0vw rgba(0,0,0,0.5);
+    width : 60vw;
+    font-size: 40px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    border-radius: 7px;
+    background-image: linear-gradient(to bottom right, rgba(130, 130, 160), rgba(60,60,60,1));
+}
+
+div.info-header{
+    box-shadow: 0vw 0vw 5vw 0vw rgba(0,0,0,0.5);
+    width : 60vw;
+    font-size: 40px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    border-radius: 7px;
+    background-image: linear-gradient(to bottom right, rgba(0, 160, 255), rgba(0,100,255,1));
+}
+
+.rango{
     font-size: 30px;
     width: 60vw;
     text-align: left;
@@ -250,9 +270,7 @@ button.patient-info:hover{
 }
 
 button.status-info{
-    border: 0.2vw solid rgba(0,100,180,1);
     background-color: rgba(0,100,180,0);
-    color: rgba(0,100,180,1);
     position: relative;
     bottom:6.4vw;
     left:0.2vw;
@@ -264,6 +282,57 @@ button.status-info{
     align-items: center;
     font-weight: bold;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    border: 0.2vw solid rgba(100,100,100,1);
+    color: rgba(100,100,100,1);
+    transition: 0.5s;
+}
+
+button.empty{
+    border: 0.2vw solid rgba(100,100,100,1);
+    color: rgba(100,100,100,1);
+    transition: 0.5s;
+}
+
+button.empty:hover{
+    
+    background-color: rgba(100,100,100,1);
+    color : rgba(255,255,255,1);
+}
+
+button.critical{
+    border: 0.2vw solid rgba(255,0,0,1);
+    color: rgba(255,0,0,1);
+    transition: 0.5s;
+}
+
+button.critical:hover{
+    
+    background-color: rgba(255,0,0,1);
+    color : rgba(255,255,255,1);
+}
+
+button.warning{
+    border: 0.2vw solid rgba(255,150,40,1);
+    color: rgba(255,150,40,1);
+    transition: 0.5s;
+}
+
+button.warning:hover{
+    
+    background-color: rgba(255,150,40,1);
+    color : rgba(255,255,255,1);
+}
+
+button.good{
+    border: 0.2vw solid rgba(30,255,0,1);
+    color: rgba(30,255,0,1);
+    transition: 0.5s;
+}
+
+button.good:hover{
+    
+    background-color: rgba(30,255,0,1);
+    color : rgba(255,255,255,1);
 }
 
 button.close{
@@ -284,12 +353,6 @@ button.close:hover{
     transition: 0.3s;
 }
 
-button.status-info:hover{
-    
-    background-color: rgba(0,100,180,1);
-    color : rgba(255,255,255,1);
-}
-
 button.options{
     background-color: rgba(255,255,255,1);
     border: none;
@@ -300,8 +363,8 @@ button.options{
     justify-content: center;
     border-radius: 8px;
     transition: 0.5s;
-    position: relative;
-    right: 30.8vw;
+    position: absolute;
+    left: 5.3vw;
 }
 
 button.options:hover{
