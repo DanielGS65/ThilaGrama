@@ -10,5 +10,6 @@ Copiar '.env.example' y borrarle el '.example', este fichero ya deberia estar co
 
 Para ejecutar por primera vez:
 
-  php artisan migrate:frssh --seed
-  php artisan serve
+    php artisan migrate:fresh --seed
+  
+    php artisan serve
